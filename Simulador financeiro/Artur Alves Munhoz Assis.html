@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador financeiro</title>
+</head>
+<body>
+    <h2>Seja Bem Vindo</h2>
+    Qual a área em metros quadrados que deseja implementar nosso sistema: 
+    <input type="text" id="ipt_area"><br>
+    <button onclick="calc()">Calculo de custo</button><br>
+    <div id="valor"></div>
+</body>
+<script>
+    var arduino = 50.00;
+    var jumper = 0.14;
+    var sensor = 12.27;
+
+    function calc() {
+        var area = Number(ipt_area.value);
+        if (area >= 1) {
+            var sensores_por_m2 = 100; 
+            
+            var total_arduinos = area * 1; 
+            var total_jumpers = area * sensores_por_m2;
+            var total_sensores = area * sensores_por_m2;
+
+            var custo = (total_arduinos * arduino) + (total_jumpers * jumper) + (total_sensores * sensor);
+            
+           valor.innerHTML = `
+                Segundo a Embrapa é a cada metro quadrado é possível plantar 15 mudas de feijão.<br>
+                Para uma área de ${area} m², o sistema utilizará ${total_sensores} sensores, 
+                ${total_jumpers} jumpers e ${total_arduinos} Arduinos.<br>
+                O custo estimado do sistema é de R$ ${custo}.<br>
+		Sendo possilvel plantar ${15 * area} mudas.
+            `;
+        } else {
+            valor.innerHTML = "Por favor, insira uma área válida!";
+        }
+    }
+</script>
+</html>
