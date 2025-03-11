@@ -18,57 +18,57 @@
     <input type="text" id="ipt_precoSaca"><br><br>
     Quanto é investido para produção da safra:
     <input type="text" id="ipt_CustoSafra"><br><br>
-    <button onclick="calcSIS()">Calculo de custo do sistema</button>
+    <button onclick="calcSIS()">Calculo de custo do sistema</button><br><br>    
     <button onclick="calcPerda()">Calculo de perdas</button><br><br>
     <div id="valor"></div><div id="perda"></div>
 </body>
 <script>
-    var arduino = 50.00;
-    var jumper = 0.14;
-    var sensor = 12.27;
+    var arduino = 50.00; // Custo unitário do Arduino
+    var jumper = 0.14;  // Custo unitário do jumper
+    var sensor = 12.27; // Custo unitário do sensor
     var area = 0;
 
     function calcSIS() {
-        area = Number(ipt_area.value)
-        perda.innerHTML = ''
+        area = Number(ipt_area.value);
+        perda.innerHTML = '';
+
         if (area >= 1) {
             var sensores_por_m2 = 4; 
-            
-            var total_arduinos = area * 1; 
-            var total_jumpers = area * sensores_por_m2;
-            var total_sensores = area * sensores_por_m2;
+            var total_sensores = area * sensores_por_m2; // Número total de sensores
+            var total_jumpers = total_sensores * 3; // Corrigido: Cada sensor usa 3 jumpers
+            var total_arduinos = area * 1; // Supondo 1 Arduino por metro quadrado
 
             var custo = (total_arduinos * arduino) + (total_jumpers * jumper) + (total_sensores * sensor);
             
-           valor.innerHTML = `
-                Segundo a Embrapa é a cada metro quadrado é possível plantar 15 sementes de feijão.<br>
+            valor.innerHTML = `
+                Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>
                 Para uma área de ${area} m², o sistema utilizará ${total_sensores} sensores, 
                 ${total_jumpers} jumpers e ${total_arduinos} Arduinos.<br>
-                O custo estimado do sistema é de R$ ${custo}.<br>
-		        Sendo possilvel plantar ${15 * area} sementes.
+                O custo estimado do sistema é de R$ ${custo.toFixed(2)}.<br>
+                Sendo possível plantar ${15 * area} sementes.
             `;
         } else {
             valor.innerHTML = "Por favor, insira uma área válida!";
         }
     }
-    //estima se que o lucro encima do custo de produção seja equivalente a 66.65%
+
+    // Estima-se que o lucro sobre o custo de produção seja equivalente a 66.65%
     function calcPerda() {
-        valor.innerHTML = ''
-        area = Number(ipt_area.value)
+        valor.innerHTML = '';
+        area = Number(ipt_area.value);
         var qtdSacas = Number(ipt_qtdSacas.value);
         var peso_saca = Number(ipt_psSaca.value);
-        var safra = qtdSacas * peso_saca;
+        var safra = qtdSacas * peso_saca; // Cálculo do total de produção em Kg
 
-        //var ValorSafra = (Number(ipt_precoSaca.value) * safra) / 50;
         var custoSafra = Number(ipt_CustoSafra.value);
+        var ValorSafra = custoSafra + ((custoSafra * 66.65) / 100); // Cálculo do valor estimado da safra
+        var perca_safra = ValorSafra - ((ValorSafra * 60) / 100); // Perda estimada de 60%
 
-        var ValorSafra = custoSafra + ((custoSafra * 66.65) / 100)
-        var perca_safra = ValorSafra - ((ValorSafra* 47) / 100) 
-
-        perda.innerHTML = `Com uma área equivalente a ${area} a produção da safra foi de ${safra}Kg.<br>
-        E o valor arrecadado com a safra foi de R$${ValorSafra}.<br>
-        Entretanto com uma perda média de 60% o valor arrecado será de ${perca_safra} dando um prejuizo de ${ValorSafra - perca_safra}
-        `
+        perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${safra} Kg.<br>
+        O valor arrecadado com a safra foi de R$${ValorSafra}.<br>
+        Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${perca_safra}, 
+        resultando em um prejuízo potencial de R$${(ValorSafra - perca_safra)}.
+        `;
     }
 </script>
 </html>
