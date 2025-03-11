@@ -9,19 +9,30 @@
 <body>
     <h2>Seja Bem Vindo</h2>
     Qual a área em metros quadrados que deseja implementar nosso sistema: 
-    <input type="text" id="ipt_area"><br>
-    <button onclick="calc()">Calculo de custo</button><br>
-    <div id="valor"></div>
+    <input type="text" id="ipt_area"><br><br>
+    Qual a quantidade de sacas produzidas:
+    <input type="text" id="ipt_qtdSacas"><br><br>
+    Qual o peso das sacas:
+    <input type="text" id="ipt_psSaca"><br><br>
+    Qual valor é vendido a saca:
+    <input type="text" id="ipt_precoSaca"><br><br>
+    Quanto é investido para produção da safra:
+    <input type="text" id="ipt_CustoSafra"><br><br>
+    <button onclick="calcSIS()">Calculo de custo do sistema</button>
+    <button onclick="calcPerda()">Calculo de perdas</button><br><br>
+    <div id="valor"></div><div id="perda"></div>
 </body>
 <script>
     var arduino = 50.00;
     var jumper = 0.14;
     var sensor = 12.27;
+    var area = 0;
 
-    function calc() {
-        var area = Number(ipt_area.value);
+    function calcSIS() {
+        area = Number(ipt_area.value)
+        perda.innerHTML = ''
         if (area >= 1) {
-            var sensores_por_m2 = 15; 
+            var sensores_por_m2 = 4; 
             
             var total_arduinos = area * 1; 
             var total_jumpers = area * sensores_por_m2;
@@ -30,15 +41,34 @@
             var custo = (total_arduinos * arduino) + (total_jumpers * jumper) + (total_sensores * sensor);
             
            valor.innerHTML = `
-                Segundo a Embrapa é a cada metro quadrado é possível plantar 15 mudas de feijão.<br>
+                Segundo a Embrapa é a cada metro quadrado é possível plantar 15 sementes de feijão.<br>
                 Para uma área de ${area} m², o sistema utilizará ${total_sensores} sensores, 
                 ${total_jumpers} jumpers e ${total_arduinos} Arduinos.<br>
                 O custo estimado do sistema é de R$ ${custo}.<br>
-		Sendo possilvel plantar ${15 * area} mudas.
+		        Sendo possilvel plantar ${15 * area} sementes.
             `;
         } else {
             valor.innerHTML = "Por favor, insira uma área válida!";
         }
+    }
+    //estima se que o lucro encima do custo de produção seja equivalente a 66.65%
+    function calcPerda() {
+        valor.innerHTML = ''
+        area = Number(ipt_area.value)
+        var qtdSacas = Number(ipt_qtdSacas.value);
+        var peso_saca = Number(ipt_psSaca.value);
+        var safra = qtdSacas * peso_saca;
+
+        //var ValorSafra = (Number(ipt_precoSaca.value) * safra) / 50;
+        var custoSafra = Number(ipt_CustoSafra.value);
+
+        var ValorSafra = custoSafra + ((custoSafra * 66.65) / 100)
+        var perca_safra = ValorSafra - ((ValorSafra* 47) / 100) 
+
+        perda.innerHTML = `Com uma área equivalente a ${area} a produção da safra foi de ${safra}Kg.<br>
+        E o valor arrecadado com a safra foi de R$${ValorSafra}.<br>
+        Entretanto com uma perda média de 60% o valor arrecado será de ${perca_safra} dando um prejuizo de ${ValorSafra - perca_safra}
+        `
     }
 </script>
 </html>
