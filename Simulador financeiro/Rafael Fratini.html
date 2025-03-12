@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora
+    
+    </title>
+</head>
+<body>
+   <div>
+     <h1>Seja Bem vindo(a)</h1>
+     <h3> Calcular custo</h3>
+    Informe a area em m² <input id="ipt_area"><br>
+    <button onclick="Bcusto()"> Calcular custo do sistema</button>
+<div id="txt_calcusto"></div>
+</div>
+<b>---------------------------------------------------------------------------------------------------------------------------------------------------</b>
+
+<h3>Ver possivel perda sem controle</h3>
+Valor de venda por saca de feijão<input id="ipt_feijao"><br>
+peso de cada saca (em Kg): <input id="ipt_peso"><br>
+quantidade produzida por safra(em Kg) <input id="ipt_quantidade"><br>
+<button onclick="Bperda()">Calcular a perda</button>
+<div id="txt_lucro"></div>
+<div style="color: red;"></div>
+</body>
+</html>
+<script>
+    // Estarei fazendo a precificação em cima de 1 arduino para cada sensor, isso aumentará o custo porem não fomos ensinados ainda a usar mais de um sensor por arduino
+function Bcusto() {
+   if (ipt_area.value >=0.1) {
+    
+       var valor = (Number(ipt_area.value) * Number(249.7)); // o valor é 249,70 por conta que o sistema usa 4 placas arduino (R$50 cada) 12 jumpers (aproxR$1,70) E 4 sensores (aprox R$49)
+       txt_calcusto.innerHTML = `o custo de implementação do projeto em ${ipt_area.value}m²(sem mão de obra) sera de R$${valor}`
+    } else {txt_calcusto.innerHTML = 'Valor invalido!'}
+    }
+function Bperda() { 
+    var qnt_sacos = ipt_quantidade.value / ipt_peso.value
+    var lucro = qnt_sacos * ipt_feijao.value
+   var perda = lucro * 0.4 // 40% a menos 
+
+    txt_lucro.innerHTML = `por safra se você produzir sem perdas você tem aproximadamente R$${lucro} de renda <br>
+    porém com a falta de controle adequado de umidade do solo pode cair cerca de 40% da produtividade tendo um prejuizo de <b style="color: red;">R$${perda}</b> da sua renda<br>
+    transformando sua renda em R$${lucro - perda}`
+        // ao rodar o site, dependendo dos valores inseridos no input, na div acima os numeros podem ficar decimais e com muitas casas após a virgula, ainda não sei como limitar isso!
+    if (ipt_quantidade.value == '') {
+        txt_lucro.innerHTML = `<div style="color: red;">Preencha todos os campos</div>`
+    } 
+    if (ipt_peso.value == '') {
+        txt_lucro.innerHTML = `<div style="color: red;">Preencha todos os campos</div>`
+    }
+    if (ipt_feijao.value == '' ) {
+    txt_lucro.innerHTML = `<div style="color: red;">Preencha todos os campos</div>`
+  }
+}
+// estudos indicam que a falta de controle adequado de umidade pode resultar em perdas de até 30% a 50% na produtividade do feijão. vou usar o valor de 40%
+// Fonte Ferreira, J. et al. "Impacto da irrigação no rendimento do feijão." Revista Brasileira de Engenharia Agrícola e Ambiental, 2020.
+
+
+</script>
