@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+<div>
+        
+    <h1>Agro Sense</h1>
+    <h3>Seja Bem Vindo</h3>
+    Tamanho da área em m²: <input type="Number" id="ipt_area"><br>
+    Quantidade de sacas produzidas: <input type="text" id="ipt_qtdSacas"><br>
+    Qual o peso das sacas: <input type="text" id="ipt_psSaca"><br>
+    Valor da saca: <input type="text" id="ipt_precoSaca"><br>
+    Quanto é investido para produção da safra: <input type="text" id="ipt_CustoSafra"><br><br>
+    <button onclick="calcu()">Calculo de Custo</button> <br>
+    <button onclick="calcuP()">Calculo de perdas</button><br><br>
+    <div id="resposta_txt"></div>
+    <div id="perdas_txt"></div>
+
+</div>
+</body>
+</html>
+<script>
+    var ARDUINO = 50; 
+    var JUMPERS = 0.14;
+    var SENSOR = 12.27;
+    var AREA = 0;
+    
+    function calcu() {
+        AREA = Number(ipt_area.value);
+        perdas_txt.innerHTML = '';
+
+        if (AREA >= 1) {
+            var SENSIPM = 4; 
+            var TT_SENSI = AREA * SENSIPM;
+            var TT_JUMP = TT_SENSI * 3;
+            var TT_ARDUINO = AREA * 1;
+            var CUSTO = (TT_ARDUINO * ARDUINO) + (TT_JUMP * JUMPERS) + (TT_SENSI * SENSOR);
+            
+            resposta_txt.innerHTML = `Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>Para uma área de ${AREA} m², o sistema utilizará ${TT_SENSI} sensores, ${TT_JUMP} jumpers e ${TT_ARDUINO} Arduinos.<br>O custo estimado do sistema é de R$ ${CUSTO.toFixed(2)}.<br>Sendo possível plantar ${15 * AREA} sementes.`;
+        }
+    }
+    function calcuP() {
+        resposta_txt.innerHTML = '';
+        AREA = Number(ipt_area.value);
+        var QNTSAC = Number(ipt_qtdSacas.value);
+        var PESO_SAC = Number(ipt_psSaca.value);
+        var SAFRA = QNTSAC * PESO_SAC;
+        var CUSTOSA = Number(ipt_CustoSafra.value);
+        var VALORSAF = CUSTOSA + ((CUSTOSA * 66.65) / 100); 
+        var PERCASAF = VALORSAF - ((VALORSAF * 60) / 100); 
+
+        perdas_txt.innerHTML = `Com uma área equivalente a ${AREA} m², a produção da safra foi de ${SAFRA} Kg.<br>O valor arrecadado com a safra foi de R$${VALORSAF}.<br>Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${PERCASAF}, resultando em um prejuízo potencial de R$${(VALORSAF - PERCASAF)}.`;
+    }
+</script>
