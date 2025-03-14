@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Calculadora De Feijão</h1><br>
+    <h3><b>Somos da AgroSense, uma empresa focada em monitoramento de plantação de feijão carioca, nós visamos evitar o desperdicio de água,<br>
+         o excesso de água e a falta de água, nosso sistema ajudará você a ecomonizar dinheiro e ajudarásua plantação a render mais. </b></h3><br>
+    Quantos M² tem sua Área: <input id="area"><br><br>
+    Quantos quilos são produzidos por Área: <input id="quilos"><br><br>
+     Qual a média de quilos vendidos por Safra: <input id="vendidos"><br><br>
+     Qual a média de preço por quilo: <input id="media"><br><br>
+    <button onclick="calcular()">Calcular o custo</button>
+    <button onclick="limpar()">Faça outro orçamento</button>
+    <div id="valor"></div>
+</body>
+
+</html>
+<script>
+
+    var arduino = 50.00;
+    var jumpers = 0.14;
+    var sensor = 12.27;
+    function calcular() {
+        var terreno = area.value;
+        var kgProduzido = Number(quilos.value);
+        var kgVendido = Number(vendidos.value);
+        var precoKg = Number(media.value);
+        var kgTotal = terreno * kgProduzido;
+        var KgVendAnual = kgProduzido * 12;
+        var KgNaoVendidos = kgTotal + (precoKg * terreno);
+        var valorNaoVendidosMes = KgNaoVendidos * precoKg;
+        // valor perdido pela irrigação em excesso, abafabamento, falta (%) 
+        var valorPerdaMonitoramento = valorNaoVendidosMes - (valorNaoVendidosMes * 0.53)
+        var KgNaoVendidosAnual = valorNaoVendidosMes * 12;
+        var valorPerdaMensal = valorNaoVendidosMes
+        var valorPerdaAnual = KgNaoVendidosAnual
+        var valorMenosPerdaMes = valorPerdaMonitoramento
+        var valorMenosPerdaAno = valorPerdaMonitoramento * 12
+        // código da quantidade de sensores, jumpers e arduino
+            var sensores_por_m2 = 4; 
+            var TotalSensores = terreno * sensores_por_m2; // Número total de sensores
+            var TotalJumpers = TotalSensores * 3; // Cada sensor usa 3 jumpers
+            var TotalArduinos = terreno * 1; // 1 Arduino por metro quadrado
+            var Total = (TotalSensores * sensor) + (TotalJumpers + jumpers) + (TotalArduinos + arduino)
+
+    
+valor.innerHTML = `<br><span style='color: red'> <h3>Sem o nosso sistema:</h3> 
+    </span><span style='color: red'>  Sem o nosso sistema vai ter um desperdicio muito grande de água, gerando um prejuizo, que pode afetar a economia e a sua plantação em 47%, em 1 safra você pode perde por mês R$: </span>${valorPerdaMensal}
+ <br><span style='color: red'>Continuando com esse mesmo planejamento, por ano você perde R$:</span>${valorPerdaAnual}<br>
+
+
+ <span style='color: green'> <h3> Após adquirir nosso sistema:</h3></span>
+
+ <br><span style='color: green'>  você irá economizar R$</span> ${valorMenosPerdaMes} 
+ <br><span style='color: green'>Com o nosso sistema em 1 ano você terá uma diminuição <b>ANUAL</b> de R$</span> ${valorMenosPerdaAno}
+ <b><br> <span style='color: blue'><h3>Implementando o nosso sistema você irá gastar:  <i><span style='color: blue'> </h3>
+<br>Você ira usar <b>${TotalSensores}</b> Sensores,  <b>${TotalJumpers}</b> Jumpers,  <b>${TotalArduinos}</b> Arduinos, com o custo de R$:${Total}</b></i>`
+
+    }
+    function limpar() {
+        valor.innerHTML = `` 
+valor.innerHTML = ``
+valor.innerHTML = ``
+valor.innerHTML = ``
+    }
+</script>
