@@ -1,71 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador financeiro</title>
-</head>
-<body>
-    <h2>Seja Bem Vindo</h2>
-    Qual a área em metros quadrados que deseja implementar nosso sistema: 
-    <input type="text" id="ipt_area"><br><br>
-    Qual a quantidade de sacas produzidas:
-    <input type="text" id="ipt_qtdSacas"><br><br>
-    Qual o peso das sacas:
-    <input type="text" id="ipt_psSaca"><br><br>
-    Qual valor é vendido a saca:
-    <input type="text" id="ipt_precoSaca"><br><br>
-    Quanto é investido para produção da safra:
-    <input type="text" id="ipt_CustoSafra"><br><br>
-    <button onclick="calcSIS()">Calculo de custo do sistema</button><br><br>    
-    <button onclick="calcPerda()">Calculo de perdas</button><br><br>
-    <div id="valor"></div><div id="perda"></div>
-</body>
-<script>
-    var arduino = 50.00; // Custo unitário do Arduino
-    var jumper = 0.14;  // Custo unitário do jumper
-    var sensor = 12.27; // Custo unitário do sensor
-    var area = 0;
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simulador financeiro</title>
+    </head>
+    <body>
+        <h2>Seja Bem Vindo</h2>
+        Qual a área em metros quadrados que deseja implementar nosso sistema: 
+        <input type="text" id="ipt_area"><br><br>
+        Qual a quantidade de sacas produzidas:
+        <input type="text" id="ipt_qtdSacas"><br><br>
+        Qual o peso das sacas:
+        <input type="text" id="ipt_psSaca"><br><br>
+        Qual valor é vendido a saca:
+        <input type="text" id="ipt_precoSaca"><br><br>
+        Quanto é investido para produção da safra:
+        <input type="text" id="ipt_CustoSafra"><br><br>
+        <button onclick="calcSIS()">Calculo de custo do sistema</button><br><br>    
+        <button onclick="calcPerda()">Calculo de perdas</button><br><br>
+        <div id="valor"></div><div id="perda"></div>
+    </body>
+    <script>
+        var arduino = 35; // Custo unitário do Arduino link https://www.piscaled.com.br/placa-compativel-arduino-uno-r3-atmega328p-cabo-usb-pinos?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant&gad_source=1&gclid=EAIaIQobChMIkP-8-eiJjAMVX1VIAB14DS6fEAQYCiABEgIPOPD_BwE
+        var jumper = 0.06;  // Custo unitário do jumper
+        var sensor = 6; // Custo unitário do sensor link https://www.robocore.net/sensor-ambiente/sensor-de-umidade-de-solo-capacitivo?gad_source=1&gclid=EAIaIQobChMIu7O77eeJjAMVOmpIAB2YfApaEAQYASABEgL0UPD_BwE
+        var area = 0;
 
-    function calcSIS() {
-        area = Number(ipt_area.value);
-        perda.innerHTML = '';
+        function calcSIS() {
+            area = Number(ipt_area.value);
+            perda.innerHTML = '';
 
-        if (area >= 1) {
-            var sensores_por_m2 = 4; 
-            var total_sensores = area * sensores_por_m2; // Número total de sensores
-            var total_jumpers = total_sensores * 3; // Corrigido: Cada sensor usa 3 jumpers
-            var total_arduinos = area * 4; // Supondo 1 Arduino por sensor
+            if (area >= 1) {
+                var sensores_por_m2 = 3; 
+                var total_sensores = area * sensores_por_m2; // Número total de sensores
+                var total_jumpers = total_sensores * 3; // Cada sensor usa 3 jumpers
+                var total_arduinos = area * 1; // Supondo 1 Arduino para cada 3 sensores
 
-            var custo = (total_arduinos * arduino) + (total_jumpers * jumper) + (total_sensores * sensor);
-            
-            valor.innerHTML = `
-                Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>
-                Para uma área de ${area} m², o sistema utilizará ${total_sensores} sensores, 
-                ${total_jumpers} jumpers e ${total_arduinos} Arduinos.<br>
-                O custo estimado do sistema é de R$ ${custo}.<br>
-                Sendo possível plantar ${15 * area} sementes.
-            `;
-        } else {
-            valor.innerHTML = "Por favor, insira uma área válida!";
+                var custo = (total_arduinos * arduino) + (total_jumpers * jumper) + (total_sensores * sensor);
+                
+                valor.innerHTML = `
+                    Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>
+                    Para uma área de ${area} m², o sistema utilizará ${total_sensores} sensores, 
+                    ${total_jumpers} jumpers e ${total_arduinos} Arduinos.<br>
+                    O custo estimado do sistema é de R$ ${custo}.<br>
+                    Sendo possível plantar ${15 * area} sementes.
+                `;
+            } else {
+                valor.innerHTML = "Por favor, insira uma área válida!";
+            }
         }
-    }
 
-    // Estima-se que o lucro sobre o custo de produção seja equivalente a 66.65%
-    function calcPerda() {
-        valor.innerHTML = '';
-        area = Number(ipt_area.value);
-        var qnt_sacas = Number(ipt_qtdSacas.value)
-        var  preco_saca = Number(ipt_precoSaca.value)
-        var peso_saca = Number(ipt_psSaca.value)
-        var rendimento_saca = (qnt_sacas * preco_saca) - Number(ipt_CustoSafra.value); // rendimento sera o valor arrecadado - valor investido
+        // Estima-se que o lucro sobre o custo de produção seja equivalente a 66.65%
+        function calcPerda() {
+            valor.innerHTML = '';
+            area = Number(ipt_area.value);
+            var qnt_sacas = Number(ipt_qtdSacas.value)
+            var  preco_saca = Number(ipt_precoSaca.value)
+            var peso_saca = Number(ipt_psSaca.value)
+            var rendimento_saca = (qnt_sacas * preco_saca) - Number(ipt_CustoSafra.value); // rendimento sera o valor arrecadado - valor investido
 
-        perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
-        O valor do Lucro da safra foi de R$${rendimento_saca}.<br>
-        Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${rendimento_saca * 0.4}, 
-        resultando em um prejuízo potencial de R$${(rendimento_saca * 0.6)}.<br> Que pode ser evitado com o controle adequado da umidade do solo.
-        `;
-    }
-</script>
+            perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
+            O valor do Lucro da safra, com um controle de umidade seria de R$${rendimento_saca}.<br>
+            Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${rendimento_saca * 0.4}, 
+            resultando em um prejuízo potencial de R$${(rendimento_saca * 0.6)}.<br> Que pode ser evitado com o controle adequado da umidade do solo.<br>
+            
+            `;
+        }
+    </script>
 </html>
