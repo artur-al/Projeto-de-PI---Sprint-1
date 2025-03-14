@@ -62,9 +62,9 @@
         var rendimento_saca = (qnt_sacas * preco_saca) - Number(ipt_CustoSafra.value); // rendimento sera o valor arrecadado - valor investido
 
         perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
-        O valor arrecadado com a safra foi de R$${rendimento_saca}.<br>
+        O valor do Lucro da safra foi de R$${rendimento_saca}.<br>
         Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${rendimento_saca * 0.4}, 
-        resultando em um prejuízo potencial de R$${(rendimento_saca * 0.6)}.
+        resultando em um prejuízo potencial de R$${(rendimento_saca * 0.6)}.<br> Que pode ser evitado com o controle adequado da umidade do solo.
         `;
     }
 </script>
