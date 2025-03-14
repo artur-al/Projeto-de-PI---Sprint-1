@@ -30,9 +30,12 @@
     var AREA = 0;
     
     function calcu() {
+        if (ipt_area.value == "" && ipt_qtdSacas.value == "" && ipt_psSaca.value == "" && ipt_precoSaca.value == "" ** ipt_CustoSafra.value == "") {
+        perdas_txt.innerHTML = `Insira os Dados`;
+       } else {
         AREA = Number(ipt_area.value);
         perdas_txt.innerHTML = '';
-
+    
         if (AREA >= 1) {
             var SENSIPM = 4; 
             var TT_SENSI = AREA * SENSIPM;
@@ -40,10 +43,14 @@
             var TT_ARDUINO = AREA * 1;
             var CUSTO = (TT_ARDUINO * ARDUINO) + (TT_JUMP * JUMPERS) + (TT_SENSI * SENSOR);
             
-            resposta_txt.innerHTML = `Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>Para uma área de ${AREA} m², o sistema utilizará ${TT_SENSI} sensores, ${TT_JUMP} jumpers e ${TT_ARDUINO} Arduinos.<br>O custo estimado do sistema é de R$ ${CUSTO.toFixed(2)}.<br>Sendo possível plantar ${15 * AREA} sementes.`;
+            resposta_txt.innerHTML = `Segundo a Embrapa, a cada metro quadrado é possível plantar 15 sementes de feijão.<br>Para uma área de ${AREA} m², o sistema utilizará ${TT_SENSI} sensores, ${TT_JUMP} jumpers e ${TT_ARDUINO} Arduinos.<br>O custo estimado do sistema é de R$ ${CUSTO}.<br>Sendo possível plantar ${15 * AREA} sementes.`;
         }
-    }
+    }}
     function calcuP() {
+       if (ipt_area.value == "" && ipt_qtdSacas.value == "" && ipt_psSaca.value == "" && ipt_precoSaca.value == "" ** ipt_CustoSafra.value == "") {
+        perdas_txt.innerHTML = `Insira os Dados`;
+       } else {
+       
         resposta_txt.innerHTML = '';
         AREA = Number(ipt_area.value);
         var QNTSAC = Number(ipt_qtdSacas.value);
@@ -54,5 +61,5 @@
         var PERCASAF = VALORSAF - ((VALORSAF * 60) / 100); 
 
         perdas_txt.innerHTML = `Com uma área equivalente a ${AREA} m², a produção da safra foi de ${SAFRA} Kg.<br>O valor arrecadado com a safra foi de R$${VALORSAF}.<br>Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${PERCASAF}, resultando em um prejuízo potencial de R$${(VALORSAF - PERCASAF)}.`;
-    }
+    }}
 </script>
