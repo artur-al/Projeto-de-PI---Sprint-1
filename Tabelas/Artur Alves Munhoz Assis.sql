@@ -19,3 +19,22 @@ create table solo(
 	idMuda int primary key auto_increment,
     umidade int not null
 );
+
+
+insert into cliente (nome_social, nome_fantasia, email, telefone, cnpj, senha) values
+('AgroTech LTDA', 'AgroTech', 'contato@agrotech.com', 11987654321, '12345678000199', 'senha123'),
+('Fazenda Verde', 'FazVerde', 'fazenda@verde.com', 11976543210, '98765432000188', 'segredo2024');
+
+insert into sensor (tipo, situacao) values
+('umidade', 1),
+('temperatura', 1),
+('pH', 0);
+
+insert into solo (umidade) values
+(45),
+(60),
+(30);
+
+select * from cliente;
+
+select * from cliente;
