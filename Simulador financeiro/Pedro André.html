@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora sprint</title>
+</head>
+<body>
+    <h2>calculadora de feijão</h2>
+informe o m² de sua área: <input id="ipt_metros"> <br><br>
+informe quantos kg que sua area produz: <input id="ipt_safras"> <br><br>
+informe quantos kg você vende: <input id="ipt_kg"> <br><br> 
+informe o preço que você vende: <input id="ipt_media"> <br><br>
+<button onclick="calcular()">calcular custo</button> <br><br>
+<div id="quantidade"></div>
+</body>
+</html>
+<script>
+var arduino = 35.62;
+var jumpers = 0.06;
+var sensor = 6.45;
+var sensores = 4;
+var preco_area = (arduino * 1) +  (sensores * sensor) + (3 * jumpers * 4)
+
+
+function calcular() {
+var area = Number(ipt_metros.value)
+var safras = Number(ipt_safras.value)
+var kg_vendido = Number(ipt_kg.value)
+var preco_kg = Number(ipt_media.value)
+var custo_total = area * preco_area;
+var renda_total = kg_vendido * preco_kg;
+var lucro_total = renda_total - custo_total;
+
+quantidade.innerHTML = "custo total da área R$ " + custo_total + " renda total  R$ " + renda_total + " lucro: R$ " + lucro_total;
+}
+</script>
