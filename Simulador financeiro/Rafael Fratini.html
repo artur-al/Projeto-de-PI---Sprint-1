@@ -31,19 +31,19 @@ quantidade produzida por safra(em Kg) <input id="ipt_quantidade"><br>
 function Bcusto() {
    if (ipt_area.value >=0.1) {
     
-       var valor = (Number(ipt_area.value) * Number(249.7)); // o valor é 249,70 por conta que o sistema usa 4 placas arduino (R$50 cada) 12 jumpers (aproxR$1,70) E 4 sensores (aprox R$49)
-       txt_calcusto.innerHTML = `o custo de implementação do projeto em ${ipt_area.value}m²(sem mão de obra) sera de R$${valor}`
+       var valor = (Number(ipt_area.value) * Number(53.54)); // esse valor se da por que em um metro quadrado é usado 1 arduino, 3 sensores e 9 jumpers. (arduino:  35 reais, jumper: 6 centavos cada e sensores: 6 reais cada)
+       txt_calcusto.innerHTML = `o custo de implementação do projeto em ${ipt_area.value}m² sera de R$${valor}`
     } else {txt_calcusto.innerHTML = 'Valor invalido!'}
     }
 function Bperda() { 
     var qnt_sacos = ipt_quantidade.value / ipt_peso.value
     var lucro = qnt_sacos * ipt_feijao.value
-   var perda = lucro * 0.4 // 40% a menos 
+   var perda = lucro * 0.6 // 60% a menos 
 
     txt_lucro.innerHTML = `por safra se você produzir sem perdas você tem aproximadamente R$${lucro} de renda <br>
-    porém com a falta de controle adequado de umidade do solo pode cair cerca de 40% da produtividade tendo um prejuizo de <b style="color: red;">R$${perda}</b> da sua renda<br>
+    porém estudos dizem que com a falta de controle adequado de umidade do solo, é possivel cair até 60% da produtividade tendo um prejuizo de <b style="color: red;">R$${perda}</b> da sua renda por safra<br>
     transformando sua renda em R$${lucro - perda}`
-        // ao rodar o site, dependendo dos valores inseridos no input, na div acima os numeros podem ficar decimais e com muitas casas após a virgula, ainda não sei como limitar isso!
+
     if (ipt_quantidade.value == '') {
         txt_lucro.innerHTML = `<div style="color: red;">Preencha todos os campos</div>`
     } 
@@ -54,8 +54,7 @@ function Bperda() {
     txt_lucro.innerHTML = `<div style="color: red;">Preencha todos os campos</div>`
   }
 }
-// estudos indicam que a falta de controle adequado de umidade pode resultar em perdas de até 30% a 50% na produtividade do feijão. vou usar o valor de 40%
-// Fonte Ferreira, J. et al. "Impacto da irrigação no rendimento do feijão." Revista Brasileira de Engenharia Agrícola e Ambiental, 2020.
-
+// estudos indicam que a falta de controle adequado de umidade pode resultar em perdas de até 60% na produtividade do feijão. 
+// Fonte https://ainfo.cnptia.embrapa.br/digital/bitstream/item/180720/1/Qualidade-fisica-do-solo-na-produtividade-da-cultura.pdf
 
 </script>

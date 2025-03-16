@@ -10,7 +10,7 @@
         
     <h1>Agro Sense</h1>
     <h3>Seja Bem Vindo</h3>
-    Tamanho da área em m²: <input type="Number" id="ipt_area"><br>
+    Tamanho da área em m²: <input id="ipt_area"><br>
     Quantidade de sacas produzidas: <input type="text" id="ipt_qtdSacas"><br>
     Qual o peso das sacas: <input type="text" id="ipt_psSaca"><br>
     Valor da saca: <input type="text" id="ipt_precoSaca"><br>
@@ -24,9 +24,9 @@
 </body>
 </html>
 <script>
-    var ARDUINO = 50; 
-    var JUMPERS = 0.14;
-    var SENSOR = 12.27;
+    var ARDUINO = 35; 
+    var JUMPERS = 0.06;
+    var SENSOR = 6;
     var AREA = 0;
     
     function calcu() {
@@ -37,7 +37,7 @@
         perdas_txt.innerHTML = '';
     
         if (AREA >= 1) {
-            var SENSIPM = 4; 
+            var SENSIPM = 3; 
             var TT_SENSI = AREA * SENSIPM;
             var TT_JUMP = TT_SENSI * 3;
             var TT_ARDUINO = AREA * 1;
@@ -57,7 +57,7 @@
         var PESO_SAC = Number(ipt_psSaca.value);
         var SAFRA = QNTSAC * PESO_SAC;
         var CUSTOSA = Number(ipt_CustoSafra.value);
-        var VALORSAF = CUSTOSA + ((CUSTOSA * 66.65) / 100); 
+        var VALORSAF = CUSTOSA + ((CUSTOSA * 66.65) / 100); // o calculo aqui é baseado em um estudo que diz que em uma safra de feijão geralmente o lucro é cerca de 66.5% do valor investido.
         var PERCASAF = VALORSAF - ((VALORSAF * 60) / 100); 
 
         perdas_txt.innerHTML = `Com uma área equivalente a ${AREA} m², a produção da safra foi de ${SAFRA} Kg.<br>O valor arrecadado com a safra foi de R$${VALORSAF}.<br>Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${PERCASAF}, resultando em um prejuízo potencial de R$${(VALORSAF - PERCASAF)}.`;

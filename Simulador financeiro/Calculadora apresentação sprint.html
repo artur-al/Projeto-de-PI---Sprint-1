@@ -52,7 +52,6 @@
             }
         }
 
-        // Estima-se que o lucro sobre o custo de produção seja equivalente a 66.65%
         function calcPerda() {
             valor.innerHTML = '';
             area = Number(ipt_area.value);
@@ -60,13 +59,21 @@
             var  preco_saca = Number(ipt_precoSaca.value)
             var peso_saca = Number(ipt_psSaca.value)
             var rendimento_saca = (qnt_sacas * preco_saca) - Number(ipt_CustoSafra.value); // rendimento sera o valor arrecadado - valor investido
+// fonte que comprova os 60% citados : https://ainfo.cnptia.embrapa.br/digital/bitstream/item/180720/1/Qualidade-fisica-do-solo-na-produtividade-da-cultura.pdf 
+            if(area >= 10000){
+             area = area / 10000 
 
-            perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
-            O valor do Lucro da safra, com um controle de umidade seria de R$${rendimento_saca}.<br>
-            Entretanto, com uma perda média de 60%, o valor arrecadado será de R$${rendimento_saca * 0.4}, 
-            resultando em um prejuízo potencial de R$${(rendimento_saca * 0.6)}.<br> Que pode ser evitado com o controle adequado da umidade do solo.<br>
-            
+            perda.innerHTML = `Com uma área equivalente a ${area}Ha, a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
+            <b>Estudos comprovam que plantações de feijão que não tem um controle de umidade do solo adequado podem ter até 60% de sua safra comprometida.</b> <br> <br>
+             com um sistema adequado, sua safra produziria até R$${rendimento_saca} de Lucro;  Entretanto, com uma perda de 60%, esse valor pode chegar a R$${rendimento_saca * 0.4}, 
+            e você estaria perdendo cerca de <b style='color:red'>R$${(rendimento_saca * 0.6)}</b> por Safra.<br>
+            `;  } else { 
+        perda.innerHTML = `Com uma área equivalente a ${area}m², a produção da safra foi de ${qnt_sacas * peso_saca} Kg.<br>
+            <b>Estudos comprovam que plantações de feijão que não tem um controle de umidade do solo adequado podem ter até 60% de sua safra comprometida.</b> <br> <br>
+             com um sistema adequado, sua safra produziria até R$${rendimento_saca} de Lucro;  Entretanto, com uma perda de 60%, esse valor pode chegar a R$${rendimento_saca * 0.4}, 
+            e você estaria perdendo cerca de <b style='color:red'>R$${(rendimento_saca * 0.6)}</b> por Safra.<br>
             `;
         }
+    }
     </script>
 </html>
