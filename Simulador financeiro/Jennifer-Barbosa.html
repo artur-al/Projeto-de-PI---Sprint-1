@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador financeiro</title>
+</head>
+
+<body>
+    <h2>AgroSense</h2>
+
+    Qual a área (m²) que deseja implementar nosso sistema?<br>
+    <input id="ipt_area"><br>
+    Qual a quantidade de sacas produzidas?<br>
+    <input id="ipt_qtdSacas"><br>
+    Qual é o peso de cada sacas?<br>
+    <input id="ipt_pesoSaca"><br>
+    Por quanto o Quilo do Feijão é vendido?<br>
+    <input id="ipt_valorKg"><br>
+    Quanto é investido para produção da safra?<br>
+    <input id="ipt_custoSafra"><br><br>
+    <button onclick="calcularSistema()">Calculo de custo do sistema</button>
+    <button onclick="calcularPerda()">Calculo de perdas</button><br><br>
+    <button onclick="limpar()">Fazer outro orçamento</button><br><br>
+
+    <div id="valor"></div>
+    <div id="perda"></div>
+
+</body>
+
+</html>
+
+<script>
+    var arduino = 35;
+    var jumper = 0.06;
+    var sensor = 6;
+    var area = 0;
+
+    function calcularSistema() {
+        area = Number(ipt_area.value)
+        perda.innerHTML = ''
+        if (area >= 1) {
+            var sensores_por_m2 = 4;
+            var totalArduinos = area * 1;
+            var totalJumpers = area * sensores_por_m2;
+            var totalSensores = area * sensores_por_m2;
+            var custo = (totalArduinos * arduino) + (totalJumpers * jumper) + (totalSensores * sensor);
+
+            valor.innerHTML = `
+                Para uma área de ${area} m², o sistema utilizará ${totalSensores} sensores, 
+                ${totalJumpers} jumpers e ${totalArduinos} Arduinos.<br>
+                O custo estimado do sistema é de R$ ${custo}.`;
+        } else {
+            valor.innerHTML = "Por favor, insira uma área válida!";
+        }
+    }
+    //estima se que o lucro encima do custo de produção seja equivalente a 66.65%
+    function calcularPerda() {
+        valor.innerHTML = ''
+        var valorSafra = custoSafra + (custoSafra * 0.34)
+        var percaSafra = valorSafra - (valorSafra * 0.4)
+        
+        if(area > 1){ 
+        perda.innerHTML = `Com uma área equivalente a ${area} m² a produção da safra foi de ${safra}Kg.<br>
+        E o valor arrecadado com a safra foi de R$${valorSafra}.<br>
+        Entretanto com uma perda média de 60% o valor arrecado será de R$ ${percaSafra} dando um prejuizo de R$ ${valorSafra - percaSafra}`
+    } else {
+        valor.innerHTML = "Por favor, insira uma área válida!";}
+    }
+
+    function limpar(){
+        perda.innerHTML = ' '
+        valor.innerHTML = ' '
+    }
+
+
+    function calcularPerda() {
+        valor.innerHTML = '';
+        area = Number(ipt_area.value);
+        var qtdSacas = Number(ipt_qtdSacas.value);
+        var pesoSaca = Number(ipt_pesoSaca .value);
+        var valorKg = Number(ipt_valorKg.value);
+        var custoSafra = Number(ipt_custoSafra.value);
+        
+        var qtdKgTotal = qtdSacas * pesoSaca;
+
+        var valorArrecadado = qtdKgTotal * valorKg;
+
+        var rendimentoTotal = valorArrecadado - custoSafra;
+
+        var valorFinal = valorArrecadado * 0.4;
+        var valorPerdido = valorArrecadado * 0.6;
+
+        perda.innerHTML = `Com uma área equivalente a ${area} m², a produção da safra foi de ${qtdKgTotal} Kg.<br>
+        O valor arrecadado com a safra foi de R$${valorArrecadado}.<br>
+        Porém, com uma perda média de 60%, o valor arrecadado será de R$${valorFinal}, 
+        resultando em um prejuízo de R$${valorPerdido}.
+        `;
+    }
+</script>
