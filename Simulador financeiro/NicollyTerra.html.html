@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de ROI - Safra de Feijão</title>
+</head>
+<body>
+    <h1>Calculadora de ROI - Safra de Feijão</h1>
+
+    <p>Custo do Sistema de Monitoramento de Solo (R$ por hectare):</p>
+    <input id="custo_monitoramento" type="text">
+
+    <p>Lucro Gerado com o Aumento da Produção (R$):</p>
+    <input id="lucro_gerado" type="text">
+
+    <p>Área Plantada (hectares):</p>
+    <input id="area_plantada" type="text">
+
+    <br><br>
+
+    <button onclick="calcularROI()">Calcular ROI</button>
+
+    <br><br>
+    <div id="div_txt"></div>
+
+</body>
+<script>
+    function calcularROI() {
+        var custo_monitoramento1 = custo_monitoramento.value;
+        var lucro_gerado1 = lucro_gerado.value;
+        var area_plantada1 = area_plantada.value;
+
+        var custo_total_monitoramento1 = custo_monitoramento1 * area_plantada1;
+        var roi = ((custo_total_monitoramento1 - lucro_gerado1 ) / custo_total_monitoramento1) * 100;
+
+        div_txt.innerHTML = `
+            O ROI (Retorno sobre Investimento) da implementação do monitoramento de solo para a safra de feijão é de ${roi}%.<br><br>
+            Custo total do monitoramento: R$ ${custo_total_monitoramento1}.<br>
+            Lucro gerado com o aumento da produção: R$ ${lucro_gerado1}.
+        `;
+    }
+</script>
+</html>
+
+
